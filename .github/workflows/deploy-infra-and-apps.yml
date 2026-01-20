@@ -1,4 +1,9 @@
-on: [push, workflow_dispatch]
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+  workflow_dispatch:
+
 
 permissions:
   # Require write permission to Fetch an OIDC token (required for federated credential) and write it
@@ -7,6 +12,7 @@ permissions:
 
 
 env: 
+  APP_VERSION: ${{ github.ref_name }}
   AZURE_RG_NAME: rg-${{ vars.PROJECT_NAME }}-${{ vars.AZURE_RESOURCE_IDENTIFIER }}
     
   
@@ -86,6 +92,9 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+
+    - name: Inject app version
+      run: echo "VITE_APP_VERSION=${{ env.APP_VERSION }}" >> $GITHUB_ENV
 
     - name: Build the app
       run: npm install && npm run build
