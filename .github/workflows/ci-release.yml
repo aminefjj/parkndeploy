@@ -23,7 +23,8 @@ jobs:
       - name: Inject app version
         run: echo "VITE_APP_VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
       - run: npm run build
-      - uses: actions/upload-artifact@v4
+      - name: Upload frontend artifact
+        uses: actions/upload-artifact@v4
         with:
           name: frontend
           path: frontend/dist
@@ -39,7 +40,8 @@ jobs:
         with:
           dotnet-version: 9.0.x
       - run: dotnet publish -c Release -o publish
-      - uses: actions/upload-artifact@v4
+      - name: Upload backend artifact
+        uses: actions/upload-artifact@v4
         with:
           name: backend
-          path: backend/publish
+          path: backend/ParkNDeploy.Api/publish
