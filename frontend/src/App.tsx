@@ -7,6 +7,7 @@ import ParkingList from "@/components/ParkingList/ParkingList";
 import { LoadingSpinner } from "@/components/ui/loadingspinner";
 import ParkingListFilters from "@/components/ParkingList/ParkingListFilters";
 import { useParkingSearchStore } from "@/stores/parkingSearchStore";
+{import.meta.env.VITE_APP_VERSION}
 
 function App() {
   const { parkingName } = useParkingSearchStore();
