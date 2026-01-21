@@ -1,7 +1,10 @@
 on:
-  workflow_run:
-    workflows: ["CI Release"]
-    types: [completed]
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+      run_id:
+        type: string
 
 
 
@@ -64,12 +67,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
     
-    - name: Download backend artifact
+    - name: Download the backend artifact
       uses: actions/download-artifact@v4
       with:
-        name: backend
-        path: backend/ParkNDeploy.Api/publish
-        run-id: ${{ github.event.workflow_run.id }}
+        name: backend-artifact
+        run-id: ${{ inputs.run_id }}
         
     - name: Login to Azure 
       uses: azure/login@v2
@@ -94,12 +96,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Download frontend artifact
+    - name: Download the frontend artifact
       uses: actions/download-artifact@v4
       with:
-        name: frontend
-        path: frontend/dist
-        run-id: ${{ github.event.workflow_run.id }}
+        name: frontend-artifact
+        run-id: ${{ inputs.run_id }}
 
     - name: Login to Azure 
       uses: azure/login@v2
