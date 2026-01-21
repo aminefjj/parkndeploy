@@ -50,6 +50,7 @@ jobs:
     needs: [frontend, backend]
     permissions:
       id-token: write
+      actions: read
     uses: ./.github/workflows/deploy-infra-and-apps.yml
     with:
       environment: ${{ contains(github.ref_name, 'rc') && 'dev' || 'production' }}
